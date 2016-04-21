@@ -102,7 +102,7 @@ private[amqp] class ExchangeSubscriber(channel: Channel, exchange: String)
   override def handleAck(deliveryTag: Long, multiple: Boolean): Unit =
     if (multiple) {
       for (i <- unacknowledged.keys.filter(_ <= deliveryTag))
-        if(unacknowledged.remove(deliveryTag, true))
+        if(unacknowledged.remove(i, true))
           active.get().request(1)
     }
     else {
